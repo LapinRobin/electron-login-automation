@@ -50,7 +50,11 @@
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "options": {
+              "executableName": "login-automation"
+            }
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
