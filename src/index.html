@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login Automation App</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <h1>Login Automation</h1>
+    <div id="app">
+      <input id="username" type="text" placeholder="Username" />
+      <input id="email" type="text" placeholder="Email"/>
+      <input id="password" type="password" placeholder="Password" />
+      <button id="save" class="save">Save</button>
+      <div class="button-container">
+
+        <button id="login-moodle" class="login">Moodle</button>
+        <button id="login-zmail" class="login">Zmail</button>
+        <button id="login-planete" class="login vpn">Planète
+          <span class="tooltiptext">Only works with school network or VPN</span>
+        </button>
+        <button id="login-bv" class="login vpn">VMware
+          <span class="tooltiptext">Only works with school network or VPN</span>
+        </button>
+      </div>
+    </div>
+    <script>
+      //const { ipcRenderer } = require('electron');
+      async function loadSavedCredentials() {
+        try {
+          const { username, email, password } = await electron.invoke('get-credentials');
+          if (username && password && email) {
+            document.getElementById('username').value = username;
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+          }
+        } catch (error) {
+          console.error('Error while loading saved credentials:', error);
+        }
+      }
+
+      loadSavedCredentials();
+
+      document.getElementById('save').addEventListener('click', async () => {
+          try {
+              const username = document.getElementById('username').value;
+              const email = document.getElementById('email').value;
+              const password = document.getElementById('password').value;
+              if (username.trim() === '' || password.trim() === '' || email.trim() === '') {
+                  alert('All fields must be filled in.');
+                  return;
+              }
+              await window.electron.invoke('save-credentials', username, email, password);
+              console.log('Credentials saving invoked');
+          } catch (error) {
+              console.error('Error while saving credentials:', error);
+          }
+      });
+
+      // Listen for the 'credentials-saved' message
+      window.electron.on('credentials-saved', () => {
+          alert('Credentials have been saved!');
+      });
+  
+      document.getElementById('login-moodle').addEventListener('click', async () => {
+          try {
+              const { username, password } = await window.electron.invoke('get-credentials');
+              
+              if (username.trim() === '' || password.trim() === '') {
+                  alert('All fields must be filled in.');
+                  return;
+              }
+              await window.electron.invoke('perform-login-moodle', username, password);
+          // Call the performLogin function or other authentication functions with the retrieved username and password
+          } catch (error) {
+              console.error('Error while logging in:', error);
+              alert('An error occurred during the login process. Please try again.');
+          }
+      });
+
+      document.getElementById('login-zmail').addEventListener('click', async () => {
+        try {
+          const { email, password } = await window.electron.invoke('get-credentials');
+
+          if (password.trim() === '' || email.trim() === '') {
+            alert('All fields must be filled in.');
+            return;
+          }
+          await window.electron.invoke('perform-login-zmail', email, password);
+          // Call the performLogin function or other authentication functions with the retrieved username and password
+        } catch (error) {
+          console.error('Error while logging in:', error);
+          alert('An error occurred during the login process. Please try again.');
+        }
+      });
+
+      document.getElementById('login-planete').addEventListener('click', async () => {
+        try {
+          const { username, email, password } = await window.electron.invoke('get-credentials');
+
+          if (username.trim() === '' || password.trim() === '' || email.trim() === '') {
+            alert('All fields must be filled in.');
+            return;
+          }
+          await window.electron.invoke('perform-login-planete', username, password);
+          // Call the performLogin function or other authentication functions with the retrieved username and password
+        } catch (error) {
+          console.error('Error while logging in:', error);
+          alert('An error occurred during the login process. Please try again.');
+        }
+      });
+
+      document.getElementById("login-bv").addEventListener("click", async () => {
+        try {
+          const { username, email, password } = await window.electron.invoke('get-credentials');
+
+          if (username.trim() === '' || password.trim() === '' || email.trim() === '') {
+            alert('All fields must be filled in.');
+            return;
+          }
+          await window.electron.invoke('perform-login-bv', username, password);
+          // Call the performLogin function or other authentication functions with the retrieved username and password
+        } catch (error) {
+          console.error('Error while logging in:', error);
+          alert('An error occurred during the login process. Please try again.');
+        }
+      });
+      // todo https://ade2-web.insa-lyon.fr/direct/myplanning.jsp
+    </script>
+  </body>
+</html>
