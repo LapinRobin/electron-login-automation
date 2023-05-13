@@ -1,8 +1,8 @@
 {
   "name": "my-app",
-  "productName": "my-app",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "productName": "login-automation",
+  "version": "1.0.1",
+  "description": "Login automation for INSA students",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -65,7 +65,7 @@
           "config": {
             "repository": {
               "owner": "LapinRobin",
-              "name": "electron-publish-test"
+              "name": "electron-login-automation"
             }
           }
         }
