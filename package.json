@@ -32,7 +32,9 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "executableName": "login-automation"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
