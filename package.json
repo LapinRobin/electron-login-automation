@@ -1,6 +1,6 @@
 {
-  "name": "my-app",
-  "productName": "login-automation",
+  "name": "login-automation",
+  "productName": "LoginAutomation",
   "version": "1.0.1",
   "description": "Login automation for INSA students",
   "main": "src/index.js",
