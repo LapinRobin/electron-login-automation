@@ -1,5 +1,12 @@
 module.exports = {
-  packagerConfig: {},
+
+
+  packagerConfig: {
+    asar: {
+      unpack: '**/node_modules/puppeteer/**/*'
+    }
+  },
+
   rebuildConfig: {},
   makers: [
     {
