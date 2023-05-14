@@ -1,9 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { ipcMain } = require('electron');
 const SecureStore = require('./secureStorage');
 const secureStore = new SecureStore();
-const path = require('path');
 const puppeteer = require('puppeteer');
-const electronPath = require('electron');
 
 //let mainWindow;
 // code to remove stored credentials
@@ -79,9 +77,6 @@ ipcMain.handle('perform-login-bv', async (event, username, password) => {
 
 
 async function performLoginMoodle(username, password) {
-    // Use the 'electron' package to get the correct path to the Electron executable
-    const executablePath = electronPath;
-  
     // Launch Puppeteer with the Electron executable and headless set to false
     const browser = await puppeteer.launch({
         'ignoreDefaultArgs': ['--enable-automation'],
@@ -106,8 +101,6 @@ async function performLoginMoodle(username, password) {
 }
 
 async function performLoginZmail(email, password) {
-    // Use the 'electron' package to get the correct path to the Electron executable
-    const executablePath = electronPath;
 
     // Launch Puppeteer with the Electron executable and headless set to false
     const browser = await puppeteer.launch({
@@ -133,8 +126,6 @@ async function performLoginZmail(email, password) {
 }
 
 async function performLoginPlanete(username, password) {
-    // Use the 'electron' package to get the correct path to the Electron executable
-    const executablePath = electronPath;
 
     // Launch Puppeteer with the Electron executable and headless set to false
     const browser = await puppeteer.launch({
@@ -165,8 +156,6 @@ async function performLoginPlanete(username, password) {
 }
 
 async function performLoginBv(username, password) {
-    // Use the 'electron' package to get the correct path to the Electron executable
-    const executablePath = electronPath;
     // create usernameEmail. e.g., usernameEmail = 'username@insa-lyon'
     const usernameEmail = username + '@insa-lyon.fr';
     // Launch Puppeteer with the Electron executable and headless set to false
@@ -192,35 +181,3 @@ async function performLoginBv(username, password) {
     ]);
 }
 
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 450,
-    height: 500,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
-
-  mainWindow.loadFile('index.html');
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-}
-
-//app.whenReady().then(createWindow);
-app.on('ready', createWindow);
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
