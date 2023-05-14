@@ -1,7 +1,7 @@
 {
   "name": "login-automation",
   "productName": "LoginAutomation",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Login automation for INSA students",
   "main": "src/index.js",
   "scripts": {
