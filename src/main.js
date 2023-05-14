@@ -1,7 +1,7 @@
 const { ipcMain } = require('electron');
 const SecureStore = require('./secureStorage');
 const secureStore = new SecureStore();
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 
 //let mainWindow;
 // code to remove stored credentials
@@ -11,6 +11,8 @@ const puppeteer = require('puppeteer-core');
 // store.delete('username');
 // store.delete('email');
 // store.delete('password');
+
+
 
 ipcMain.handle('save-credentials', (event, username, email, password) => {
     secureStore.set('username', username);
@@ -75,14 +77,23 @@ ipcMain.handle('perform-login-bv', async (event, username, password) => {
     }
 });
 
+function getChromiumExecPath() {
+    return puppeteer.executablePath().replace('app.asar', 'app.asar.unpacked');
+}
+
+function createBrowser(options = {}) {
+    return puppeteer.launch({
+        'ignoreDefaultArgs': ['--enable-automation'],
+        headless: false,
+        defaultViewport: null,
+        executablePath: getChromiumExecPath()
+    });
+}
+
 
 async function performLoginMoodle(username, password) {
     // Launch Puppeteer with the Electron executable and headless set to false
-    const browser = await puppeteer.launch({
-        'ignoreDefaultArgs': ['--enable-automation'],
-        headless: false,
-        defaultViewport: null
-    });
+    const browser = await createBrowser();
   
     // Close the default 'about:blank' page
     const [defaultPage] = await browser.pages();
@@ -103,11 +114,7 @@ async function performLoginMoodle(username, password) {
 async function performLoginZmail(email, password) {
 
     // Launch Puppeteer with the Electron executable and headless set to false
-    const browser = await puppeteer.launch({
-        'ignoreDefaultArgs': ['--enable-automation'],
-        headless: false,
-        defaultViewport: null
-    });
+    const browser = await createBrowser();
 
     // Close the default 'about:blank' page
     const [defaultPage] = await browser.pages();
@@ -128,11 +135,7 @@ async function performLoginZmail(email, password) {
 async function performLoginPlanete(username, password) {
 
     // Launch Puppeteer with the Electron executable and headless set to false
-    const browser = await puppeteer.launch({
-        'ignoreDefaultArgs': ['--enable-automation'],
-        headless: false,
-        defaultViewport: null
-    });
+    const browser = await createBrowser();
 
     // Close the default 'about:blank' page
     const [defaultPage] = await browser.pages();
@@ -159,11 +162,7 @@ async function performLoginBv(username, password) {
     // create usernameEmail. e.g., usernameEmail = 'username@insa-lyon'
     const usernameEmail = username + '@insa-lyon.fr';
     // Launch Puppeteer with the Electron executable and headless set to false
-    const browser = await puppeteer.launch({
-        'ignoreDefaultArgs': ['--enable-automation'],
-        headless: false,
-        defaultViewport: null
-    });
+    const browser = await createBrowser();
 
     // Close the default 'about:blank' page
     const [defaultPage] = await browser.pages();
