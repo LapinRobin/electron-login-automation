@@ -1,13 +1,12 @@
 module.exports = {
 
-
+  rebuildConfig: {},
   packagerConfig: {
+
     asar: {
-      unpack: '**/node_modules/puppeteer/**/*'
+      unpack: '**/node_modules/puppeteer-core/**/*'
     }
   },
-
-  rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',

@@ -1,7 +1,7 @@
 const { ipcMain } = require('electron');
 const SecureStore = require('./secureStorage');
 const secureStore = new SecureStore();
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 //let mainWindow;
 // code to remove stored credentials

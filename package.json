@@ -21,7 +21,8 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "keytar": "^7.9.0",
-    "puppeteer": "^20.2.0"
+    "puppeteer": "^20.2.0",
+    "puppeteer-core": "^20.2.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.1.1",
